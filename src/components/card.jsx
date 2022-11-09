@@ -15,7 +15,7 @@ class Card extends React.Component {
 
     render() {
         return (
-            <div className="p-2 d-flex align-items-center bg-grey rounded card mb-3">
+            <div className="p-2 d-flex align-items-center bg-grey rounded card">
                 <div className="rounded p-2 bg-card" style={{backgroundColor: this.props.color}}>
                     <Icon path={this.props.icon} color={this.props.color} size={2}/>
                 </div>

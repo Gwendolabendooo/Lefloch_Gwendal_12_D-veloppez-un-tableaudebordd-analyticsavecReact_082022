@@ -21,7 +21,7 @@ class Navbar extends React.Component {
 
     render() {
         return (
-            <nav className="bg-dark">
+            <nav className="bg-dark position-absolute w-100">
                 <ul className="d-flex justify-content-between align-items-center p-2 font-18 font-weight-bold">
                     <li>
                         <img src={logo} width="150px" alt="" />
