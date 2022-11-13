@@ -26,6 +26,18 @@ li{
   cursor: pointer;
 }
 
+.bg-red{
+  background-color: #FF0000;
+}
+
+.color-red{
+  color: #FF0000;
+}
+
+.bg-dark2{
+  background-color: #282D30;
+}
+
 .copyright{
   writing-mode: vertical-rl;
   text-orientation: mixed;

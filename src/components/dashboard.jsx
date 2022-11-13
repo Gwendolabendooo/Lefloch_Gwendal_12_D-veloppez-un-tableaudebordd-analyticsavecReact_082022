@@ -7,7 +7,7 @@ import prie from '../img/prie.png'
 import swim from '../img/swim.png'
 
 //components
-import {getUser} from '../service.js'
+import {getUser, getUserActivity, getUserAverageSessions, getUserPerformance} from '../service.js'
 
 import Card from './card'
 import { mdiFire, mdiFoodDrumstick, mdiFoodApple, mdiHamburger } from '@mdi/js';
@@ -22,7 +22,7 @@ class Navbar extends React.Component {
         this.state = {
             user: null,
             data: [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page B', uv: 500, pv: 2100, amt: 2800}],
-            dataRadial: [
+            activity: [
                 {
                     name: '25-29',
                     uv: 26.69,
@@ -36,7 +36,7 @@ class Navbar extends React.Component {
                     fill: '#ffc658',
                 }
               ],
-            dataRadar: [
+              perf: [
                 {
                   subject: 'Math',
                   A: 120,
@@ -74,7 +74,7 @@ class Navbar extends React.Component {
                   fullMark: 150,
                 },
               ],
-            dataBar: [
+            sessions: [
                 {
                   name: 'Page A',
                   uv: 4000,
@@ -124,13 +124,48 @@ class Navbar extends React.Component {
     }
 
     componentDidMount() {
-        this.getAll()
+        this.getUserInfo()
+        this.getUserActivitys()
+        this.getUserAverageSessionss()
+        this.getUserPerformances()
     }
 
-    async getAll() {
+    async getUserInfo() {
         try {
             const user = await getUser()
-            console.log(user)   
+            user.data.todayScore = [{todayScore: user.data.todayScore}]
+            console.log(user)
+            this.setState({ data: user })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async getUserActivitys() {
+        try {
+            const user = await getUserActivity()
+            this.setState({ activity: user.data.sessions })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async getUserAverageSessionss() {
+        try {
+            const user = await getUserAverageSessions()
+            this.setState({ sessions: user.data.sessions })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async getUserPerformances() {
+        try {
+            const user = await getUserPerformance()
+            user.data.data.map(data => {
+                data.kind = user.data.kind[data.kind]
+            })
+            this.setState({ perf: user.data })
         } catch (error) {
             console.log(error)
         }
@@ -151,74 +186,85 @@ class Navbar extends React.Component {
                     </div>
                 </div>
                 <div className="w-100 h-100">
-                    <div className="w-100">
-                        <div>
-                            Félicitation ! Vous avez explosé vos objectifs hier 👏
+                    <div className="w-100 p-5" style={{paddingBottom: 0, paddingTop: "2rem"}}>
+                        <div className="p-3 m-3">
+                            <div className="d-flex" style={{fontSize: '30px'}}>
+                                <b>Bonjour </b>
+                                <div className="color-red font-weight-bold ml-1">
+                                    {this.state.data.data?.userInfos.firstName}
+                                </div>
+                            </div>
+                            <div className="mt-3">
+                                Félicitation ! Vous avez explosé vos objectifs hier 👏
+                            </div>
                         </div>
                     </div>
-                    <div className="w-100 d-flex h-100">
+                    <div className="w-100 d-flex h-100 p-5" style={{paddingTop: 0}}>
                         <div className="d-flex w-75 flex-column">
-                            <div className="h-100 d-flex flex-column">
-                                <div className="w-100 h-50">
+                            <div className="h-100 d-flex flex-column w-100">
+                                <div className="w-100 h-50 bg-grey rounded m-3 p-3">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <BarChart
                                             width={9000}
                                             height={300}
-                                            data={this.state.dataBar}
-                                            margin={{
-                                                top: 5,
-                                                right: 30,
-                                                left: 20,
-                                                bottom: 5,
-                                            }}
+                                            barSize={10}
+                                            data={this.state.activity}
+                                            // margin={{
+                                            //     top: 5,
+                                            //     right: 30,
+                                            //     left: 20,
+                                            //     bottom: 5,
+                                            // }}
                                             >
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis dataKey="name" />
+                                            <CartesianGrid strokeDasharray="5 5" />
                                             <YAxis />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Bar dataKey="pv" fill="#8884d8" />
-                                            <Bar dataKey="uv" fill="#82ca9d" />
+                                            <XAxis />
+                                            <Bar dataKey="kilogram" fill="#282D30" />
+                                            <Bar dataKey="calories" fill="#E60000" />
                                         </BarChart>
                                     </ResponsiveContainer>
                                 </div>
                                 <div className="d-flex w-100 h-50">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <RadarChart cx="50%" cy="50%" outerRadius="80%" width={600} data={this.state.dataRadar}>
-                                            <PolarGrid />
-                                            <PolarAngleAxis dataKey="subject" />
-                                            <PolarRadiusAxis />
-                                            <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                                        </RadarChart>
-                                    </ResponsiveContainer>
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <RadialBarChart cx="50%" cy="50%" width={600} innerRadius="60%" outerRadius="80%" barSize={10} data={this.state.dataRadial}>
-                                            <RadialBar
-                                                minAngle={15}
-                                                label={{ position: 'insideStart', fill: '#fff' }}
-                                                background
-                                                clockWise
-                                                dataKey="uv"
-                                            />
-                                        </RadialBarChart>
-                                    </ResponsiveContainer>
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <LineChart width={600} data={this.state.data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                                            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                                            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                                            <XAxis dataKey="name" />
-                                            <YAxis />
-                                            <Tooltip />
-                                        </LineChart>
-                                    </ResponsiveContainer>
+                                    <div className="bg-red w-100 h-100 m-3 p-3 rounded">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <LineChart width={600} data={this.state.sessions}>
+                                                <Line type="monotone" dataKey="sessionLength" stroke="#fff" strokeWidth={2} />
+                                                <CartesianGrid stroke="#ff000000" strokeDasharray="5 5" />
+                                                <Tooltip />
+                                            </LineChart>
+                                        </ResponsiveContainer>
+                                    </div>
+                                    <div className="bg-dark2 w-100 h-100 p-3 m-3 rounded">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <RadarChart cx="50%" cy="50%" outerRadius="80%" width={600} data={this.state.perf.data}>
+                                                <PolarGrid />
+                                                <PolarAngleAxis dataKey="kind" stroke="#fff"/>
+                                                <Radar name="Mike" dataKey="value" stroke="#FF0101" fill="#FF0101" fillOpacity={0.6} />
+                                            </RadarChart>
+                                        </ResponsiveContainer>
+                                    </div>
+                                    //refaire
+                                    <div className="bg-grey w-100 h-100 p-3 m-3 rounded">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <RadialBarChart cx="50%" cy="50%" width={600} innerRadius="60%" outerRadius="80%" barSize={10} data={this.state.data.data?.todayScore}>
+                                                <RadialBar
+                                                    minAngle={15}
+                                                    label={{ position: 'insideStart', fill: '#fff' }}
+                                                    background
+                                                    clockWise
+                                                    dataKey="todayScore"
+                                                />
+                                            </RadialBarChart>
+                                        </ResponsiveContainer>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="ml-3 w-25 d-flex flex-column justify-content-between">
-                            <Card icon={mdiFire} data="1,930kCal" label="Calories" color="rgb(255 0 0 / 1)"/>
-                            <Card icon={mdiFoodDrumstick} data="155g" label="Proteines" color="#4AB8FF"/>
-                            <Card icon={mdiFoodApple} data="290g" label="Glucides" color="#FDCC0C"/>
-                            <Card icon={mdiHamburger} data="50g" label="Lipides" color="#FD5181"/>
+                            <Card icon={mdiFire} data={this.state.data.data?.keyData.calorieCount + "kcal"} label="Calories" color="rgb(255 0 0 / 1)"/>
+                            <Card icon={mdiFoodDrumstick} data={this.state.data.data?.keyData.proteinCount + "g"} label="Proteines" color="#4AB8FF"/>
+                            <Card icon={mdiFoodApple} data={this.state.data.data?.keyData.carbohydrateCount + "g"} label="Glucides" color="#FDCC0C"/>
+                            <Card icon={mdiHamburger} data={this.state.data.data?.keyData.lipidCount + "g"} label="Lipides" color="#FD5181"/>
                         </div>
                     </div>
                 </div>
