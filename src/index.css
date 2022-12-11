@@ -54,10 +54,6 @@ li{
   height: 100vh;
 }
 
-.bg-grey{
-  background-color: #FBFBFB;
-}
-
 .card{
   width: 200px;
 }
@@ -330,6 +326,11 @@ li{
 
 .font-weight-bold{
   font-weight: bold;
+}
+
+.dot{
+  width: 14px;
+  height: 14px;
 }
 
 /**flex**/

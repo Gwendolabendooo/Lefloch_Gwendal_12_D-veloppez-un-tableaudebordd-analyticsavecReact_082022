@@ -2,11 +2,13 @@
 :root {
   --font-color: #424242;
   --bg-color: #fff;
+  --bg-grey: #FBFBFB;
 }
 
 [data-theme="dark"] {
   --font-color: #e1e1ff;
-  --bg-color: #161625;
+  --bg-color: #000000;
+  --bg-grey: #0e0e0e;
 }
 
 $primary: rgb(214, 84, 24);
@@ -20,12 +22,22 @@ body{
   transition: background .4s, color .4s;
 }
 
+.score-content{
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
 .border-primary{
   border-color: $primary;
 }
 
 .border-secondary{
   border-color: $secondary;
+}
+
+.bg-grey{
+  background-color: var(--bg-grey);
 }
 
 .text-primary{

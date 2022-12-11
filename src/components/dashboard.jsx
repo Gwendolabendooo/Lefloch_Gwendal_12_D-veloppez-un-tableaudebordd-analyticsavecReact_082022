@@ -7,6 +7,11 @@ import prie from '../img/prie.png'
 import swim from '../img/swim.png'
 
 //components
+import Activity from "./activity";
+import Session from "./session";
+import Score from "./score";
+import Perf from "./perf";
+
 import {getUser, getUserActivity, getUserAverageSessions, getUserPerformance} from '../service.js'
 
 import Card from './card'
@@ -36,7 +41,7 @@ class Navbar extends React.Component {
                     fill: '#ffc658',
                 }
               ],
-              perf: [
+            perf: [
                 {
                   subject: 'Math',
                   A: 120,
@@ -117,7 +122,11 @@ class Navbar extends React.Component {
                   pv: 4300,
                   amt: 2100,
                 },
-              ]
+              ],
+            score: [
+                { value: 1, fill: "transparent" },
+                { value: '', fill: "#ff0101" }
+            ]
         }; 
 
         
@@ -134,8 +143,7 @@ class Navbar extends React.Component {
         try {
             const user = await getUser()
             user.data.todayScore = [{todayScore: user.data.todayScore}]
-            console.log(user)
-            this.setState({ data: user })
+            this.setState({ data: user, score: [{ value: 1, fill: "transparent" },{ value: user.data.todayScore[0].todayScore, fill: "#ff0101" }] })
         } catch (error) {
             console.log(error)
         }
@@ -185,82 +193,54 @@ class Navbar extends React.Component {
                         Copyright, SportSee 2020
                     </div>
                 </div>
-                <div className="w-100 h-100">
-                    <div className="w-100 p-5" style={{paddingBottom: 0, paddingTop: "2rem"}}>
-                        <div className="p-3 m-3">
-                            <div className="d-flex" style={{fontSize: '30px'}}>
+                <div className="w-100 h-100 pl-5">
+                    <div className="w-100" style={{paddingBottom: 0, paddingLeft: 0, paddingTop: "1rem"}}>
+                        <div className="p-3 m-3" style={{marginLeft: 0, paddingLeft: 0, paddingTop: 0}}>
+                            <div className="d-flex" style={{fontSize: '40px'}}>
                                 <b>Bonjour </b>
                                 <div className="color-red font-weight-bold ml-1">
                                     {this.state.data.data?.userInfos.firstName}
                                 </div>
                             </div>
                             <div className="mt-3">
-                                Félicitation ! Vous avez explosé vos objectifs hier 👏
+                                <b>Félicitation ! Vous avez explosé vos objectifs hier 👏</b>
                             </div>
                         </div>
                     </div>
-                    <div className="w-100 d-flex h-100 p-5" style={{paddingTop: 0}}>
-                        <div className="d-flex w-75 flex-column">
+                    <div className="d-flex" style={{height: "calc(100vh - 320px)", width: 'calc(100% - 160px)'}}>
+                        <div className="d-flex w-100 flex-column">
                             <div className="h-100 d-flex flex-column w-100">
-                                <div className="w-100 h-50 bg-grey rounded m-3 p-3">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart
-                                            width={9000}
-                                            height={300}
-                                            barSize={10}
-                                            data={this.state.activity}
-                                            // margin={{
-                                            //     top: 5,
-                                            //     right: 30,
-                                            //     left: 20,
-                                            //     bottom: 5,
-                                            // }}
-                                            >
-                                            <CartesianGrid strokeDasharray="5 5" />
-                                            <YAxis />
-                                            <XAxis />
-                                            <Bar dataKey="kilogram" fill="#282D30" />
-                                            <Bar dataKey="calories" fill="#E60000" />
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                </div>
-                                <div className="d-flex w-100 h-50">
-                                    <div className="bg-red w-100 h-100 m-3 p-3 rounded">
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <LineChart width={600} data={this.state.sessions}>
-                                                <Line type="monotone" dataKey="sessionLength" stroke="#fff" strokeWidth={2} />
-                                                <CartesianGrid stroke="#ff000000" strokeDasharray="5 5" />
-                                                <Tooltip />
-                                            </LineChart>
-                                        </ResponsiveContainer>
+                                <Activity activity={this.state.activity}/>
+                                <div className="p-2"></div>
+                                <div className="d-flex w-100 h-50" style={{gap: '20px'}}>
+                                    <div className="bg-red w-100 h-100 rounded d-flex flex-column position-relative">
+                                        <div style={{color: "white", width: "180px"}} className="p-4 pb-2 font-20 position-absolute">
+                                            Durée moyenne des sessions
+                                        </div>
+                                        <Session sessions={this.state.sessions}/>
                                     </div>
-                                    <div className="bg-dark2 w-100 h-100 p-3 m-3 rounded">
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <RadarChart cx="50%" cy="50%" outerRadius="80%" width={600} data={this.state.perf.data}>
-                                                <PolarGrid />
-                                                <PolarAngleAxis dataKey="kind" stroke="#fff"/>
-                                                <Radar name="Mike" dataKey="value" stroke="#FF0101" fill="#FF0101" fillOpacity={0.6} />
-                                            </RadarChart>
-                                        </ResponsiveContainer>
+                                    <div className="bg-dark2 w-100 h-100 rounded">
+                                        <Perf perf={this.state.perf}/>
                                     </div>
-                                    //refaire
-                                    <div className="bg-grey w-100 h-100 p-3 m-3 rounded">
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <RadialBarChart cx="50%" cy="50%" width={600} innerRadius="60%" outerRadius="80%" barSize={10} data={this.state.data.data?.todayScore}>
-                                                <RadialBar
-                                                    minAngle={15}
-                                                    label={{ position: 'insideStart', fill: '#fff' }}
-                                                    background
-                                                    clockWise
-                                                    dataKey="todayScore"
-                                                />
-                                            </RadialBarChart>
-                                        </ResponsiveContainer>
+                                    <div className="bg-grey w-100 h-100 rounded d-flex flex-column position-relative">
+                                        <div className="p-4 pb-1 font-20 position-absolute">
+                                            Score
+                                        </div>
+                                        <div className="score-content position-absolute text-center">
+                                            <strong>{100 * this.state.score[1].value}%</strong>
+                                            <br />
+                                            <span>
+                                            de votre
+                                            <br />
+                                            objectif
+                                            </span>
+                                        </div>
+                                        <Score score={this.state.score}/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="ml-3 w-25 d-flex flex-column justify-content-between">
+                        <div className="ml-3 d-flex flex-column justify-content-between" style={{width: '225px'}}>
                             <Card icon={mdiFire} data={this.state.data.data?.keyData.calorieCount + "kcal"} label="Calories" color="rgb(255 0 0 / 1)"/>
                             <Card icon={mdiFoodDrumstick} data={this.state.data.data?.keyData.proteinCount + "g"} label="Proteines" color="#4AB8FF"/>
                             <Card icon={mdiFoodApple} data={this.state.data.data?.keyData.carbohydrateCount + "g"} label="Glucides" color="#FDCC0C"/>
