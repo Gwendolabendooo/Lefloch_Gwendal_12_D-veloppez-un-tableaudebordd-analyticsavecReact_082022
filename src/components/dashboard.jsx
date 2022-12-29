@@ -9,7 +9,7 @@ import swim from '../img/swim.png'
 //components
 import Activity from "./activity";
 // import Session from "./session";
-import Session from '../model/session'
+import Session from './session'
 import Score from "./score";
 import Perf from "./perf";
 
@@ -144,9 +144,7 @@ function Dashboard () {
     async function getUserAverageSessionss() {
         try {
             const user = await getUserAverageSessions()
-            setSession(user.data.sessions.map((session) => {
-                return new Session(session);
-            }) )
+            setSession(user.data.sessions)
         } catch (error) {
             console.log(error)
         }
@@ -201,6 +199,7 @@ function Dashboard () {
                                     <div style={{color: "white", width: "180px"}} className="p-4 pb-2 font-20 position-absolute">
                                         Durée moyenne des sessions
                                     </div>
+                                    <Session sessions={session}/>
                                 </div>
                                 <div className="bg-dark2 w-100 h-100 rounded">
                                     <Perf perf={perf}/>
