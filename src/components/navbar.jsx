@@ -1,7 +1,7 @@
 import React, { useState, setState } from "react";
 
 //components
-import Darkmode from "./darkmode";
+import Darkmode from "../darkmode";
 
 //img
 import logo from "../img/logo.png"

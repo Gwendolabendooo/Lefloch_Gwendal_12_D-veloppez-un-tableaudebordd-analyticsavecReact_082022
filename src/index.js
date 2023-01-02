@@ -2,8 +2,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //steel
-import './App.scss';
-import './index.css';
+import './style/App.scss';
+import './style/index.css';
 
 //views
 import Home from './views/Home'

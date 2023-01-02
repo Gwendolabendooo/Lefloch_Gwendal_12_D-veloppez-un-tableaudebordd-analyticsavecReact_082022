@@ -11,7 +11,7 @@ import { PolarAngleAxis, RadarChart, ResponsiveContainer, PolarGrid, Radar } fro
 function Session ({perf}) {
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" width={600} data={perf.data}>
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" width={600} data={perf}>
                 <PolarGrid gridType="polygon"
                 polarRadius={[10, 20, 40, 60, 80]}
                 stroke="#fff"

@@ -8,10 +8,15 @@ import swim from '../img/swim.png'
 
 //components
 import Activity from "./activity";
-// import Session from "./session";
 import Session from './session'
 import Score from "./score";
 import Perf from "./perf";
+
+//models
+import sessionData from "../models/session";
+import perfData from "../models/perf";
+import activityData from "../models/activity";
+
 
 import {getUser, getUserActivity, getUserAverageSessions, getUserPerformance} from '../service.js'
 
@@ -135,7 +140,9 @@ function Dashboard () {
     async function getUserActivitys() {
         try {
             const user = await getUserActivity()
-            setActivity({ activity: user.data.sessions })
+            setActivity(user.data.sessions.map(data => {
+                return new activityData(data)
+            }))
         } catch (error) {
             console.log(error)
         }
@@ -144,7 +151,9 @@ function Dashboard () {
     async function getUserAverageSessionss() {
         try {
             const user = await getUserAverageSessions()
-            setSession(user.data.sessions)
+            setSession(user.data.sessions.map(data => {
+                return new sessionData(data)
+            }))
         } catch (error) {
             console.log(error)
         }
@@ -156,7 +165,9 @@ function Dashboard () {
             user.data.data.map(data => {
                 data.kind = user.data.kind[data.kind]
             })
-            setPerf(user.data)
+            setPerf(user.data.data.map(data => {
+                return new perfData(data)
+            }))
         } catch (error) {
             console.log(error)
         }

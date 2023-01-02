@@ -41,7 +41,7 @@ const CustomTooltip = ({ active, payload }) => {
  * @returns { JSX }
  */
 function Activity ({activity}) {
-    return activity.activity !== undefined ? (
+    return activity.length !== 0 ? (
         <div className="w-100 h-50 d-flex flex-column bg-grey rounded pb-2">
             <div className="d-flex justify-content-between align-content-center align-items-center pt-2 pb-2 ml-3">
                 <div className="font-weight-bold">
@@ -75,7 +75,7 @@ function Activity ({activity}) {
                         left: 20,
                         bottom: 5,
                     }}
-                    data={activity.activity}
+                    data={activity}
                     >
                     <Tooltip content={CustomTooltip} offset={30} />
                     <CartesianGrid vertical={false} strokeDasharray="3 3" />

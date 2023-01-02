@@ -1,6 +1,6 @@
 import React, { useState, setState } from "react";
 
-import "../steel/darkmode.css"
+import "./style/darkmode.css"
 
 class Darkmode extends React.Component {
 
