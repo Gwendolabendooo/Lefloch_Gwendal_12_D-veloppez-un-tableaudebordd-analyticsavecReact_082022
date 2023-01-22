@@ -55,7 +55,7 @@ li{
 }
 
 .card{
-  width: 200px;
+  width: 150px;
 }
 
 .bg-card{
@@ -569,4 +569,42 @@ li{
 
 .border-right{
   border-right: 1px solid rgb(171, 171, 171);
+}
+
+@media screen and (max-width: 1300px) {
+  .duresession{
+    padding: 10px;
+    font-size: 17px;
+  }
+  .ctngraph{
+    padding-left: 30px;
+  }
+  .scoree{
+    padding: 10px;
+    font-size: 17px;
+  }
+  .score-content{
+    font-size: 12px;
+  }
+  .card{
+    font-size: 12px;
+    width: 100px!important;
+    padding: 15px;
+  }
+  .ctn-card{
+    width: 80px!important;
+  }
+  .bg-card > svg{
+    width: 1.5rem!important;
+    height: 1.5rem!important;
+  }
+  .perfctn > div{
+    width: 100%!important;
+    height: 80%!important;
+  }
+  .perfctn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

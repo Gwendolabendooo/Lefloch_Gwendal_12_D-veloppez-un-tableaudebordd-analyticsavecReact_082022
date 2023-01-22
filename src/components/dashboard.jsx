@@ -131,7 +131,6 @@ function Dashboard () {
             const user = await getUser()
             user.data.todayScore = [{todayScore: user.data.todayScore}]
             setScore([{ value: 1, fill: "transparent" },{ value: user.data.todayScore[0].todayScore, fill: "#ff0101" }])
-            console.log(user)
             setData(user)
         } catch (error) {
             console.log(error)
@@ -187,7 +186,7 @@ function Dashboard () {
                     Copyright, SportSee 2020
                 </div>
             </div>
-            <div className="w-100 h-100 pl-5">
+            <div className="w-100 h-100 pl-5 ctngraph">
                 <div className="w-100" style={{paddingBottom: 0, paddingLeft: 0, paddingTop: "1rem"}}>
                     <div className="p-3 m-3" style={{marginLeft: 0, paddingLeft: 0, paddingTop: 0}}>
                         <div className="d-flex" style={{fontSize: '40px'}}>
@@ -201,23 +200,23 @@ function Dashboard () {
                         </div>
                     </div>
                 </div>
-                <div className="d-flex" style={{height: "calc(100vh - 320px)", width: 'calc(100% - 160px)'}}>
+                <div className="d-flex" style={{height: "calc(100vh - 320px)", width: 'calc(100% - 90px)'}}>
                     <div className="d-flex w-100 flex-column">
                         <div className="h-100 d-flex flex-column w-100">
                             <Activity activity={activity}/>
                             <div className="p-2"></div>
                             <div className="d-flex w-100 h-50" style={{gap: '20px'}}>
                                 <div className="bg-red w-100 h-100 rounded d-flex flex-column position-relative">
-                                    <div style={{color: "white", width: "180px"}} className="p-4 pb-2 font-20 position-absolute">
+                                    <div style={{color: "white", width: "180px"}} className="p-4 pb-2 font-20 position-absolute duresession">
                                         Durée moyenne des sessions
                                     </div>
                                     <Session sessions={session}/>
                                 </div>
-                                <div className="bg-dark2 w-100 h-100 rounded">
+                                <div className="bg-dark2 w-100 h-100 rounded perfctn">
                                     <Perf perf={perf}/>
                                 </div>
                                 <div className="bg-grey w-100 h-100 rounded d-flex flex-column position-relative">
-                                    <div className="p-4 pb-1 font-20 position-absolute">
+                                    <div className="p-4 pb-1 font-20 position-absolut scoree">
                                         Score
                                     </div>
                                     <div className="score-content position-absolute text-center">
@@ -234,7 +233,7 @@ function Dashboard () {
                             </div>
                         </div>
                     </div>
-                    <div className="ml-3 d-flex flex-column justify-content-between" style={{width: '225px'}}>
+                    <div className="ml-3 d-flex flex-column justify-content-between ctn-card" style={{width: '170px'}}>
                         <Card icon={mdiFire} data={data.data?.keyData.calorieCount + "kcal"} label="Calories" color="rgb(255 0 0 / 1)"/>
                         <Card icon={mdiFoodDrumstick} data={data.data?.keyData.proteinCount + "g"} label="Proteines" color="#4AB8FF"/>
                         <Card icon={mdiFoodApple} data={data.data?.keyData.carbohydrateCount + "g"} label="Glucides" color="#FDCC0C"/>
