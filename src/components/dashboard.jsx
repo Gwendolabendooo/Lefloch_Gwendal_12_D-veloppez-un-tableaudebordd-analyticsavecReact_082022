@@ -131,6 +131,7 @@ function Dashboard () {
             const user = await getUser()
             user.data.todayScore = [{todayScore: user.data.todayScore}]
             setScore([{ value: 1, fill: "transparent" },{ value: user.data.todayScore[0].todayScore, fill: "#ff0101" }])
+            console.log(user)
             setData(user)
         } catch (error) {
             console.log(error)
